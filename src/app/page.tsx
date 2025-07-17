@@ -1,103 +1,133 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { Container, Title, Textarea, Button, Card, Text, Stack, Group, ActionIcon, useMantineColorScheme } from '@mantine/core';
+import { IconSparkles, IconSun, IconMoon } from '@tabler/icons-react';
+
+const generateHype = (input: string): string[] => {
+  const buzzwords = [
+    'revolutionary', 'disruptive', 'game-changing', 'paradigm-shifting', 'cutting-edge',
+    'innovative', 'scalable', 'cloud-native', 'AI-powered', 'blockchain-enabled',
+    'next-generation', 'enterprise-grade', 'world-class', 'industry-leading',
+    'groundbreaking', 'transformative', 'synergistic', 'omnichannel',
+    'hyper-personalized', 'frictionless', 'seamless', 'intuitive',
+    'data-driven', 'algorithm-optimized', 'machine-learning-enhanced'
+  ];
+
+  const phrases = [
+    'leverages cutting-edge technology',
+    'disrupts traditional workflows',
+    'empowers digital transformation',
+    'delivers unprecedented value',
+    'optimizes operational efficiency',
+    'enhances user experience',
+    'accelerates time-to-market',
+    'maximizes ROI potential',
+    'streamlines complex processes',
+    'enables scalable growth',
+    'provides actionable insights',
+    'facilitates seamless integration',
+    'drives innovation at scale',
+    'transforms business outcomes'
+  ];
+
+  const suffixes = [
+    'at enterprise scale',
+    'with zero downtime',
+    'using proprietary algorithms',
+    'through advanced analytics',
+    'via intelligent automation',
+    'with real-time processing',
+    'leveraging big data insights',
+    'powered by machine learning',
+    'optimized for performance',
+    'designed for the future'
+  ];
+
+  const generateVariation = () => {
+    const randomBuzzword = buzzwords[Math.floor(Math.random() * buzzwords.length)];
+    const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+    const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+    
+    return `Our ${randomBuzzword} ${input} ${randomPhrase} ${randomSuffix}.`;
+  };
+
+  return [generateVariation(), generateVariation(), generateVariation()];
+};
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [input, setInput] = useState('');
+  const [outputs, setOutputs] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleGenerate = async () => {
+    if (!input.trim()) return;
+    
+    setLoading(true);
+    setTimeout(() => {
+      const hypeVersions = generateHype(input.trim());
+      setOutputs(hypeVersions);
+      setLoading(false);
+    }, 800);
+  };
+
+  return (
+    <Container size="md" py="xl" style={{ position: 'relative' }}>
+      <ActionIcon
+        onClick={toggleColorScheme}
+        size="lg"
+        variant="subtle"
+        style={{ position: 'absolute', top: 16, right: 16 }}
+      >
+        {colorScheme === 'dark' ? <IconSun size={20} /> : <IconMoon size={20} />}
+      </ActionIcon>
+      
+      <Stack gap="lg">
+        <div style={{ textAlign: 'center' }}>
+          <Title order={1} size="h1" mb="md">
+            <Group justify="center" gap="xs">
+              <IconSparkles size={32} />
+              Product Hype Generator
+            </Group>
+          </Title>
+          <Text size="lg" c="dimmed">
+            Transform your product ideas into Silicon Valley gold
+          </Text>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <Card shadow="sm" padding="lg" radius="md" withBorder>
+          <Stack gap="md">
+            <Textarea
+              label="Enter your product description"
+              placeholder="e.g., A simple note-taking app"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              minRows={3}
+              maxRows={6}
+            />
+            <Button
+              onClick={handleGenerate}
+              loading={loading}
+              disabled={!input.trim()}
+              leftSection={<IconSparkles size={16} />}
+            >
+              Generate Hype
+            </Button>
+          </Stack>
+        </Card>
+
+        {outputs.length > 0 && (
+          <Stack gap="md">
+            <Title order={3}>Hyped Versions:</Title>
+            {outputs.map((output, index) => (
+              <Card key={index} shadow="sm" padding="md" radius="md" withBorder>
+                <Text size="sm">{output}</Text>
+              </Card>
+            ))}
+          </Stack>
+        )}
+      </Stack>
+    </Container>
   );
 }
