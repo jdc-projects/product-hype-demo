@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Container, Title, Textarea, Button, Card, Text, Stack, Group, ActionIcon, useMantineColorScheme } from '@mantine/core';
-import { IconSparkles, IconSun, IconMoon } from '@tabler/icons-react';
+import { IconSparkles, IconSun, IconMoon, IconBrandGithub } from '@tabler/icons-react';
 
 const generateHype = (input: string): string[] => {
   const buzzwords = [
@@ -74,14 +74,25 @@ export default function Home() {
 
   return (
     <Container size="md" py="xl" style={{ position: 'relative' }}>
-      <ActionIcon
-        onClick={toggleColorScheme}
-        size="lg"
-        variant="subtle"
-        style={{ position: 'absolute', top: 16, right: 16 }}
-      >
-        {colorScheme === 'dark' ? <IconSun size={20} /> : <IconMoon size={20} />}
-      </ActionIcon>
+      <Group gap="xs" style={{ position: 'absolute', top: 16, right: 16 }}>
+        <ActionIcon
+          component="a"
+          href="https://github.com/jdc-projects/product-hype-demo"
+          target="_blank"
+          rel="noopener noreferrer"
+          size="lg"
+          variant="subtle"
+        >
+          <IconBrandGithub size={20} />
+        </ActionIcon>
+        <ActionIcon
+          onClick={toggleColorScheme}
+          size="lg"
+          variant="subtle"
+        >
+          {colorScheme === 'dark' ? <IconSun size={20} /> : <IconMoon size={20} />}
+        </ActionIcon>
+      </Group>
       
       <Stack gap="lg">
         <div style={{ textAlign: 'center' }}>
